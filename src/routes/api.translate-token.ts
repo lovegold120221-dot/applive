@@ -24,7 +24,7 @@ export const Route = createFileRoute("/api/translate-token")({
           const body = requestSchema.parse(await request.json());
           const ai = new GoogleGenAI({
             apiKey,
-            httpOptions: { apiVersion: "v1alpha" },
+            httpOptions: { apiVersion: "v1beta" },
           });
           const now = Date.now();
           const token = await ai.authTokens.create({
@@ -42,6 +42,8 @@ export const Route = createFileRoute("/api/translate-token")({
                     targetLanguageCode: body.targetLanguageCode,
                     echoTargetLanguage: false,
                   },
+                  sessionResumption: {},
+                  contextWindowCompression: { slidingWindow: {} },
                 },
               },
             },

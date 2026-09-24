@@ -101,7 +101,7 @@ export function useLiveTranslation(stream: MediaStream | null, enabled: boolean,
         outputContext = new AudioContext({ sampleRate: 24000 });
         await Promise.all([inputContext.resume(), outputContext.resume()]);
 
-        const ai = new GoogleGenAI({ apiKey: payload.token, apiVersion: "v1alpha" });
+        const ai = new GoogleGenAI({ apiKey: payload.token, apiVersion: "v1beta" });
         const config = {
           responseModalities: [Modality.AUDIO],
           inputAudioTranscription: {},
@@ -110,6 +110,8 @@ export function useLiveTranslation(stream: MediaStream | null, enabled: boolean,
             targetLanguageCode,
             echoTargetLanguage: false,
           },
+          sessionResumption: {},
+          contextWindowCompression: { slidingWindow: {} },
         };
         const session = await ai.live.connect({
           model: payload.model,
@@ -164,7 +166,7 @@ export function useLiveTranslation(stream: MediaStream | null, enabled: boolean,
         }
         sessionRef.current = session;
         source = inputContext.createMediaStreamSource(sourceStream);
-        processor = inputContext.createScriptProcessor(2048, 1, 1);
+        processor = inputContext.createScriptProcessor(1024, 1, 1);
         processor.onaudioprocess = (event) => {
           event.outputBuffer.getChannelData(0).fill(0);
           if (!sessionRef.current) return;
