@@ -265,7 +265,7 @@ var config = {
     websocket: (window.location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + window.location.host + '/xmpp-websocket',
 
     //deprecated desktop sharing settings, included only because older version of jitsi-meet require them
-    desktopSharing: 'ext', // Desktop sharing method. Can be set to 'ext', 'webrtc' or false to disable.
+    desktopSharing: 'webrtc', // Use the browser-native getDisplayMedia screen-share flow.
     chromeExtensionId: 'kglhbbefdnlheedjiejgomgmfplipfeb', // Id of desktop streamer Chrome extension
     desktopSharingSources: ['screen', 'window'],
     googleApiApplicationClientID: "39065779381-bbhnkrgibtf4p0j9ne5vsq7bm49t1tlf.apps.googleusercontent.com",
@@ -282,8 +282,30 @@ var config = {
         receiveMultipleVideoStreams: true,
         },
     maxFullResolutionParticipants: 1,
+    toolbarButtons: [
+        'microphone',
+        'camera',
+        'desktop',
+        'chat',
+        'raisehand',
+        'participants-pane',
+        'settings',
+        'tileview',
+        'invite',
+        'fullscreen',
+        'security',
+        'hangup',
+        'orbit-translator',
+        'orbit-donate'
+    ],
     mainToolbarButtons: [
-        [ 'microphone', 'camera', 'desktop', 'chat', 'raisehand', 'participants-pane', 'orbit-translator', 'orbit-donate' ]
+        [ 'microphone', 'camera', 'desktop', 'orbit-translator', 'chat', 'raisehand', 'participants-pane', 'orbit-donate' ],
+        [ 'microphone', 'camera', 'desktop', 'orbit-translator', 'chat', 'participants-pane', 'orbit-donate' ],
+        [ 'microphone', 'camera', 'desktop', 'orbit-translator', 'chat', 'participants-pane' ],
+        [ 'microphone', 'camera', 'desktop', 'orbit-translator', 'chat' ],
+        [ 'microphone', 'camera', 'desktop', 'orbit-translator' ],
+        [ 'microphone', 'desktop', 'orbit-translator' ],
+        [ 'microphone', 'desktop' ]
     ],
     buttonsWithNotifyClick: [
         { key: 'orbit-translator', preventExecution: false },
@@ -799,7 +821,7 @@ Object.assign(interfaceConfig, interfaceConfigOverride);
 </script>
     <script src="libs/lib-jitsi-meet.min.js?v=9442.6546"></script>
     <script src="libs/app.bundle.min.js?v=9442.6546"></script>
-    <script src="orbit-extension.js?v=9"></script>
+    <script src="orbit-extension.js?v=10"></script>
     <title>Orbit Meeting</title>
 <meta property="og:title" content="Orbit Meeting"/>
 <meta property="og:image" content="/og.jpg"/>
